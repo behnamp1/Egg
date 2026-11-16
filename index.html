@@ -1,0 +1,170 @@
+<!doctype html>
+<html lang="fa" dir="rtl">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#ffffff">
+  <meta name="description" content="THE EGG — یک تجربه تعاملی آزمایشی. روی تخم‌مرغ ضربه بزن و رد ضربه‌ها را ببین.">
+  <title>THE EGG — یک ضربه کافی است؟</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Vazirmatn:wght@400;500;600;700;800;900&family=Inter:wght@400;500;600;700;800&family=Oswald:wght@500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="./styles.css">
+</head>
+<body>
+  <header class="site-header">
+    <a class="brand" href="./" aria-label="THE EGG home">
+      <span class="brand-word">THE EGG<span class="brand-dot">.</span></span>
+      <span class="demo-pill"><span class="status-dot"></span> نسخه آزمایشی رایگان</span>
+    </a>
+
+    <div class="header-actions">
+      <a class="header-link" href="#how-it-works">راهنما</a>
+      <button class="sound-toggle" id="soundToggle" type="button" aria-pressed="true">
+        <span class="sound-icon" id="soundIcon" aria-hidden="true">♪</span>
+        <span id="soundLabel">صدا روشن</span>
+      </button>
+    </div>
+  </header>
+
+  <main>
+    <section class="intro">
+      <div class="eyebrow"><span class="eyebrow-line"></span> ONE SHARED EGG / INTERACTIVE DEMO</div>
+      <h1>همه‌چیز از یک <span>ضربه</span> شروع می‌شود.</h1>
+      <p class="intro-copy">یک تخم‌مرغ مشترک. هزاران رد ضربه. یک نقطه پنهان.</p>
+      <p class="intro-note">فعلاً فقط تجربه کن؛ این نسخه پرداخت یا جایزه واقعی ندارد.</p>
+    </section>
+
+    <section class="game-section" aria-label="تخم‌مرغ تعاملی">
+      <div class="prize prize-left">
+        <span class="prize-index">01</span>
+        <span class="prize-copy">
+          <strong>جایزه نقدی</strong>
+          <small>DEMO PRIZE</small>
+        </span>
+        <span class="prize-mark" aria-hidden="true"></span>
+      </div>
+
+      <div class="prize prize-right">
+        <span class="prize-index">02</span>
+        <span class="prize-copy">
+          <strong>گجت موبایل</strong>
+          <small>DEMO GADGET</small>
+        </span>
+        <span class="prize-mark" aria-hidden="true"></span>
+      </div>
+
+      <div class="prize prize-bottom">
+        <span class="prize-index">03</span>
+        <span class="prize-copy">
+          <strong>اکسسوری</strong>
+          <small>DEMO ACCESSORY</small>
+        </span>
+        <span class="prize-mark" aria-hidden="true"></span>
+      </div>
+
+      <div class="egg-stage">
+        <div class="egg-halo" aria-hidden="true"></div>
+        <div class="egg-ground" aria-hidden="true"></div>
+
+        <div class="egg-art" id="eggArt">
+          <img class="egg-image" src="./assets/egg.png" alt="تخم‌مرغ سفید" draggable="false">
+          <svg class="egg-overlay" id="eggOverlay" viewBox="0 0 1024 1024"
+               role="button" tabindex="0" aria-label="برای ثبت یک ضربه روی تخم‌مرغ کلیک کن">
+            <defs>
+              <filter id="markGlow" x="-100%" y="-100%" width="300%" height="300%">
+                <feGaussianBlur stdDeviation="5" result="blur"></feGaussianBlur>
+                <feMerge><feMergeNode in="blur"></feMergeNode><feMergeNode in="SourceGraphic"></feMergeNode></feMerge>
+              </filter>
+            </defs>
+            <g id="impactLayer"></g>
+            <path id="eggHitArea"
+              d="M512 205
+                 C425 205 355 310 330 455
+                 C300 620 350 780 440 827
+                 C480 850 544 850 584 827
+                 C674 780 724 620 694 455
+                 C669 310 599 205 512 205 Z"
+              fill="#000000" fill-opacity="0.001" stroke="none"
+              pointer-events="all"></path>
+          </svg>
+          <div class="egg-hint" id="eggHint">برای ثبت ضربه، روی پوسته کلیک کن</div>
+        </div>
+
+        <div class="stage-meta stage-meta-left">
+          <span class="meta-kicker">THE SHARED CANVAS</span>
+          <span class="meta-value"><i></i> آماده دریافت ضربه</span>
+        </div>
+        <div class="stage-meta stage-meta-right">
+          <span class="meta-kicker">HIT ARCHIVE</span>
+          <span class="meta-value" id="archiveStatus">ذخیره در همین مرورگر</span>
+        </div>
+      </div>
+    </section>
+
+    <section class="counter-section" aria-live="polite">
+      <div class="counter-label">تعداد ضربه‌های ثبت‌شده در این مرورگر</div>
+      <div class="counter-row">
+        <span class="counter-accent" aria-hidden="true"></span>
+        <strong class="counter" id="hitCounter">۰</strong>
+      </div>
+      <div class="counter-foot">
+        <span class="counter-en">LOCAL DEMO HITS</span>
+        <span class="counter-separator"></span>
+        <span id="lastHitText">هنوز ضربه‌ای ثبت نشده</span>
+      </div>
+      <button class="strike-button" id="strikeButton" type="button">
+        <span class="strike-key">STRIKE</span>
+        <span>یک ضربه ثبت کن</span>
+        <span class="button-arrow" aria-hidden="true">↗</span>
+      </button>
+      <p class="strike-help">می‌توانی مستقیماً روی تخم‌مرغ هم کلیک کنی.</p>
+    </section>
+
+    <section class="info-section" id="how-it-works">
+      <div class="info-heading">
+        <div>
+          <span class="section-kicker">HOW IT WORKS / 01</span>
+          <h2>هر ضربه، یک رد تازه.</h2>
+        </div>
+        <p>در این نسخه، محل ضربه‌ها و تعداد آن‌ها فقط روی همین دستگاه ذخیره می‌شود. همگام‌سازی میان کاربران در مرحله بعدی با اتصال سرور اضافه خواهد شد.</p>
+      </div>
+
+      <div class="info-grid">
+        <article class="info-card">
+          <span class="info-number">01</span>
+          <h3>ضربه بزن</h3>
+          <p>روی سطح تخم‌مرغ کلیک کن تا یک اثر تازه ثبت شود.</p>
+        </article>
+        <article class="info-card">
+          <span class="info-number">02</span>
+          <h3>ردها را ببین</h3>
+          <p>نقطه‌ها و ترک‌های ثبت‌شده در همین مرورگر روی پوسته باقی می‌مانند.</p>
+        </article>
+        <article class="info-card">
+          <span class="info-number">03</span>
+          <h3>منتظر نسخه بعدی باش</h3>
+          <p>نقطه شکست مشترک و همگام‌سازی زنده هنوز در این نمونه فعال نیستند.</p>
+        </article>
+      </div>
+    </section>
+
+    <section class="demo-notice">
+      <span class="notice-icon" aria-hidden="true">i</span>
+      <div>
+        <strong>نسخه آزمایشی تعاملی</strong>
+        <p>هیچ پرداختی انجام نمی‌شود و جوایز صرفاً برای نمایش مفهوم طراحی شده‌اند. شمارنده و ضربه‌ها بین کاربران مختلف مشترک نیستند.</p>
+      </div>
+      <button id="resetButton" class="reset-button" type="button">پاک کردن داده‌های این مرورگر</button>
+    </section>
+  </main>
+
+  <footer class="site-footer">
+    <span class="footer-brand">THE EGG<span class="brand-dot">.</span></span>
+    <span>INTERACTIVE EXPERIMENT · DEMO ONLY</span>
+    <span>© <span id="year"></span> THE EGG</span>
+  </footer>
+
+  <script src="./app.js"></script>
+</body>
+</html>
